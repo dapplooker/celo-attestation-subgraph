@@ -1,58 +1,4 @@
-type AttestationAttestationCompletedEvent @entity {
-  id: ID!
-  txHash: Bytes
-  fromAddress: Bytes # address
-  toAddress: Bytes # address
-  valueTransferred: BigInt
-  gasUsed: BigInt
-  gasPrice: BigInt
-  blockTimestamp: BigInt! # uint256
-  identifier: Bytes! # bytes32
-  account: Bytes! # address
-  issuer: Bytes! # address
-}
-
-type AttestationAttestationExpiryBlocksSetEvent @entity {
-  id: ID!
-  txHash: Bytes
-  fromAddress: Bytes # address
-  toAddress: Bytes # address
-  valueTransferred: BigInt
-  gasUsed: BigInt
-  gasPrice: BigInt
-  blockTimestamp: BigInt! # uint256
-  value: BigInt! # uint256
-}
-
-type AttestationAttestationIssuerSelectedEvent @entity {
-  id: ID!
-  txHash: Bytes
-  fromAddress: Bytes # address
-  toAddress: Bytes # address
-  valueTransferred: BigInt
-  gasUsed: BigInt
-  gasPrice: BigInt
-  blockTimestamp: BigInt! # uint256
-  identifier: Bytes! # bytes32
-  account: Bytes! # address
-  issuer: Bytes! # address
-  attestationRequestFeeToken: Bytes! # address
-}
-
-type AttestationAttestationRequestFeeSetEvent @entity {
-  id: ID!
-  txHash: Bytes
-  fromAddress: Bytes # address
-  toAddress: Bytes # address
-  valueTransferred: BigInt
-  gasUsed: BigInt
-  gasPrice: BigInt
-  blockTimestamp: BigInt! # uint256
-  token: Bytes! # address
-  value: BigInt! # uint256
-}
-
-type AttestationAttestationsRequestedEvent @entity {
+type RequestedAttestation @entity {
   id: ID!
   txHash: Bytes
   fromAddress: Bytes # address
@@ -67,7 +13,7 @@ type AttestationAttestationsRequestedEvent @entity {
   attestationRequestFeeToken: Bytes! # address
 }
 
-type AttestationAttestationsTransferredEvent @entity {
+type CompletedAttestation @entity {
   id: ID!
   txHash: Bytes
   fromAddress: Bytes # address
@@ -77,72 +23,46 @@ type AttestationAttestationsTransferredEvent @entity {
   gasPrice: BigInt
   blockTimestamp: BigInt! # uint256
   identifier: Bytes! # bytes32
-  fromAccount: Bytes! # address
-  toAccount: Bytes! # address
-}
-
-type AttestationMaxAttestationsSetEvent @entity {
-  id: ID!
-  txHash: Bytes
-  fromAddress: Bytes # address
-  toAddress: Bytes # address
-  valueTransferred: BigInt
-  gasUsed: BigInt
-  gasPrice: BigInt
-  blockTimestamp: BigInt! # uint256
-  value: BigInt! # uint256
-}
-
-type AttestationRegistrySetEvent @entity {
-  id: ID!
-  txHash: Bytes
-  fromAddress: Bytes # address
-  toAddress: Bytes # address
-  valueTransferred: BigInt
-  gasUsed: BigInt
-  gasPrice: BigInt
-  blockTimestamp: BigInt! # uint256
-  registryAddress: Bytes! # address
-}
-
-type AttestationSelectIssuersWaitBlocksSetEvent @entity {
-  id: ID!
-  txHash: Bytes
-  fromAddress: Bytes # address
-  toAddress: Bytes # address
-  valueTransferred: BigInt
-  gasUsed: BigInt
-  gasPrice: BigInt
-  blockTimestamp: BigInt! # uint256
-  value: BigInt! # uint256
-}
-
-type AttestationTransferApprovalEvent @entity {
-  id: ID!
-  txHash: Bytes
-  fromAddress: Bytes # address
-  toAddress: Bytes # address
-  valueTransferred: BigInt
-  gasUsed: BigInt
-  gasPrice: BigInt
-  blockTimestamp: BigInt! # uint256
-  approver: Bytes! # address
-  indentifier: Bytes! # bytes32
-  from: Bytes! # address
-  to: Bytes! # address
-  approved: Boolean! # bool
-}
-
-type AttestationWithdrawalEvent @entity {
-  id: ID!
-  txHash: Bytes
-  fromAddress: Bytes # address
-  toAddress: Bytes # address
-  valueTransferred: BigInt
-  gasUsed: BigInt
-  gasPrice: BigInt
-  blockTimestamp: BigInt! # uint256
   account: Bytes! # address
+  issuer: Bytes! # address
+}
+
+type AttestationFee @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
   token: Bytes! # address
-  amount: BigInt! # uint256
+  value: BigInt! # uint256
+}
+
+type IssuersWaitBlock @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
+  value: BigInt! # uint256
+}
+
+type IssuerSelected @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
+  identifier: Bytes! # bytes32
+  account: Bytes! # address
+  issuer: Bytes! # address
+  attestationRequestFeeToken: Bytes! # address
 }
