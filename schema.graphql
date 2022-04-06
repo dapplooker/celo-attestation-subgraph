@@ -1,4 +1,4 @@
-type RequestedAttestations @entity {
+type RequestedAttestation @entity {
   id: ID!
   txHash: Bytes
   fromAddress: Bytes # address
@@ -13,7 +13,7 @@ type RequestedAttestations @entity {
   attestationRequestFeeToken: Bytes! # address
 }
 
-type CompletedAttestations @entity {
+type CompletedAttestation @entity {
   id: ID!
   txHash: Bytes
   fromAddress: Bytes # address
@@ -27,7 +27,7 @@ type CompletedAttestations @entity {
   issuer: Bytes! # address
 }
 
-type AttestationsFee @entity {
+type AttestationFee @entity {
   id: ID!
   txHash: Bytes
   fromAddress: Bytes # address
