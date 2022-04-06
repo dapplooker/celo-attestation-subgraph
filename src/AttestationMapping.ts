@@ -8,10 +8,10 @@ import {
 } from "../generated/Attestation/Attestation"
 import {} from "../generated/Attestation/Attestation"
 import {
-  CompletedAttestations as AttestationAttestationCompletedEventSchema,
+  CompletedAttestation as AttestationAttestationCompletedEventSchema,
   IssuerSelected as AttestationAttestationIssuerSelectedEventSchema,
-  AttestationsFee as AttestationAttestationRequestFeeSetEventSchema,
-  RequestedAttestations as AttestationAttestationsRequestedEventSchema,
+  AttestationFee as AttestationAttestationRequestFeeSetEventSchema,
+  RequestedAttestation as AttestationAttestationsRequestedEventSchema,
   IssuersWaitBlock as AttestationSelectIssuersWaitBlocksSetEventSchema,
 } from "../generated/schema"
 import {} from "../generated/schema"
