@@ -13,4 +13,4 @@ npm run deploy
 ```
 
 ## Subgraph  #
-Subgraph URL: https://thegraph.com/hosted-service/subgraph/dapplooker/celo-attestation-subgraph
+Subgraph URL: https://thegraph.com/hosted-service/subgraph/dapplooker/celo-attestation
