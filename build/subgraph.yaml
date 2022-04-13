@@ -1,0 +1,36 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Attestation
+    network: celo
+    source:
+      address: "0xdC553892cdeeeD9f575aa0FBA099e5847fd88D20"
+      abi: Attestation
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - AttestationCompleted
+        - AttestationIssuerSelected
+        - AttestationRequestFeeSet
+        - AttestationsRequested
+        - SelectIssuersWaitBlocksSet
+      abis:
+        - name: Attestation
+          file: Attestation/abis/Attestation.json
+      eventHandlers:
+        - event: AttestationCompleted(indexed bytes32,indexed address,indexed address)
+          handler: handleAttestationCompletedEvent
+        - event: AttestationIssuerSelected(indexed bytes32,indexed address,indexed address,address)
+          handler: handleAttestationIssuerSelectedEvent
+        - event: AttestationRequestFeeSet(indexed address,uint256)
+          handler: handleAttestationRequestFeeSetEvent
+        - event: AttestationsRequested(indexed bytes32,indexed address,uint256,address)
+          handler: handleAttestationsRequestedEvent
+        - event: SelectIssuersWaitBlocksSet(uint256)
+          handler: handleSelectIssuersWaitBlocksSetEvent
+      file: Attestation/Attestation.wasm

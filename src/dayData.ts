@@ -7,18 +7,18 @@ import {DayData} from "../generated/schema";
 
 export let ZERO_BD = BigDecimal.fromString("0");
 
-export function updateDayData(entityType: string, gasConsumed: BigDecimal, updateTimestamp: BigInt) {
+export function updateDayData(eventType: string, gasConsumed: BigDecimal, updateTimestamp: BigInt): void {
     let timestamp = updateTimestamp.toI32();
     let dayID = timestamp / 86400;
     let dayStartTimestamp = dayID * 86400;
     // @ts-ignore
-    let dayDataID = dayStartTimestamp.toString().concat("-").concat(entityType);
+    let dayDataID = dayStartTimestamp.toString().concat("-").concat(eventType);
 
     let attestationDayData = DayData.load(dayDataID);
     if (attestationDayData === null) {
         attestationDayData = new DayData(dayDataID);
         attestationDayData.timestamp = dayStartTimestamp;
-        attestationDayData.entityType = entityType;
+        attestationDayData.eventType = eventType;
         attestationDayData.dailyGasConsumed = ZERO_BD;
     }
 

@@ -42,9 +42,7 @@ export function handleAttestationIssuerSelectedEvent(
   event: AttestationIssuerSelectedEvent
 ): void {
   log.info("Attestation issuer selected: Entity address {}", [event.transaction.hash.toHex()]);
-  let entity = new AttestationAttestationIssuerSelectedEventSchema(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-  )
+  let entity = new AttestationAttestationIssuerSelectedEventSchema(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
   entity.txHash = event.transaction.hash
   entity.fromAddress = event.transaction.from
   entity.toAddress = event.transaction.to
@@ -101,7 +99,7 @@ export function handleAttestationsRequestedEvent(
   entity.attestationsRequested = event.params.attestationsRequested
   entity.attestationRequestFeeToken = event.params.attestationRequestFeeToken
 
-  updateDayData("RequestedAttestation", entity.gasPrice.times(entity.gasUsed).toBigDecimal() , entity.blockTimestamp)
+  updateDayData("RequestedAttestation", entity.gasPrice.times(entity.gasUsed).toBigDecimal(), entity.blockTimestamp)
   entity.save()
 }
 
