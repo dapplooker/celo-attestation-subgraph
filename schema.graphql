@@ -1,5 +1,6 @@
 type RequestedAttestation @entity {
   id: ID!
+  pk: String!
   txHash: Bytes
   fromAddress: Bytes # address
   toAddress: Bytes # address
@@ -15,6 +16,7 @@ type RequestedAttestation @entity {
 
 type CompletedAttestation @entity {
   id: ID!
+  pk: String!
   txHash: Bytes
   fromAddress: Bytes # address
   toAddress: Bytes # address
@@ -54,6 +56,7 @@ type IssuersWaitBlock @entity {
 
 type IssuerSelected @entity {
   id: ID!
+  pk: String!
   txHash: Bytes
   fromAddress: Bytes # address
   toAddress: Bytes # address
@@ -65,4 +68,14 @@ type IssuerSelected @entity {
   account: Bytes! # address
   issuer: Bytes! # address
   attestationRequestFeeToken: Bytes! # address
+}
+
+
+type DayData @entity {
+  id: ID!
+  timestamp: Int!
+
+  entityType: String!
+  dailyGasConsumed: BigDecimal!
+  lastUpdatedTimestamp: BigInt! # uint256
 }
