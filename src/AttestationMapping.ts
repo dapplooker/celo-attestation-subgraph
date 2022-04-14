@@ -30,7 +30,7 @@ export function handleAttestationCompletedEvent(
   entity.gasUsed = event.transaction.gasLimit
   entity.gasPrice = event.transaction.gasPrice
   entity.blockTimestamp = event.block.timestamp
-  entity.pk = (event.params.identifier.toString() + "-" + event.params.account.toString())
+  entity.pk = (event.params.identifier.toHexString().toLowerCase() + "-" + event.params.account.toHexString().toLowerCase())
   entity.identifier = event.params.identifier
   entity.account = event.params.account
   entity.issuer = event.params.issuer
@@ -51,7 +51,7 @@ export function handleAttestationIssuerSelectedEvent(
   entity.gasUsed = event.transaction.gasLimit
   entity.gasPrice = event.transaction.gasPrice
   entity.blockTimestamp = event.block.timestamp
-  entity.pk = (event.params.identifier.toString() + "-" + event.params.account.toString())
+  entity.pk = (event.params.identifier.toHexString().toLowerCase() + "-" + event.params.account.toHexString().toLowerCase())
   entity.identifier = event.params.identifier
   entity.account = event.params.account
   entity.issuer = event.params.issuer
@@ -94,7 +94,7 @@ export function handleAttestationsRequestedEvent(
   entity.gasUsed = event.transaction.gasLimit
   entity.gasPrice = event.transaction.gasPrice
   entity.blockTimestamp = event.block.timestamp
-  entity.pk = (event.params.identifier.toString() + "-" + event.params.account.toString())
+  entity.pk = (event.params.identifier.toHexString().toLowerCase() + "-" + event.params.account.toHexString().toLowerCase())
   entity.identifier = event.params.identifier
   entity.account = event.params.account
   entity.attestationsRequested = event.params.attestationsRequested
