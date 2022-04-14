@@ -3,9 +3,9 @@ import {
     BigDecimal,
     BigInt
 } from "@graphprotocol/graph-ts";
-import {DayData} from "../generated/schema";
+import {AttestationDayData} from "../generated/schema";
+import {COMPLETED_ATTESTATION, ONE_BD, REQUESTED_ATTESTATION, ZERO_BD} from "./constants";
 
-export let ZERO_BD = BigDecimal.fromString("0");
 
 export function updateDayData(eventType: string, gasConsumed: BigDecimal, updateTimestamp: BigInt): void {
     let timestamp = updateTimestamp.toI32();
@@ -14,15 +14,25 @@ export function updateDayData(eventType: string, gasConsumed: BigDecimal, update
     // @ts-ignore
     let dayDataID = dayStartTimestamp.toString().concat("-").concat(eventType);
 
-    let attestationDayData = DayData.load(dayDataID);
+    let attestationDayData = AttestationDayData.load(dayDataID);
     if (attestationDayData === null) {
-        attestationDayData = new DayData(dayDataID);
-        attestationDayData.timestamp = dayStartTimestamp;
-        attestationDayData.eventType = eventType;
-        attestationDayData.dailyGasConsumed = ZERO_BD;
+        attestationDayData = new AttestationDayData(dayDataID);
+        attestationDayData.attestationCompletedGasConsumed = ZERO_BD;
+        attestationDayData.attestationRequestedGasConsumed = ZERO_BD;
+        attestationDayData.attestationRequestedCount = ZERO_BD;
+        attestationDayData.attestationCompletedCount = ZERO_BD;
     }
 
     attestationDayData.lastUpdatedTimestamp = updateTimestamp
-    attestationDayData.dailyGasConsumed.plus(gasConsumed)
+    if (eventType === REQUESTED_ATTESTATION) {
+        attestationDayData.attestationRequestedCount.plus(ONE_BD)
+        attestationDayData.attestationRequestedGasConsumed.plus(gasConsumed)
+    } else if(eventType === COMPLETED_ATTESTATION){
+        attestationDayData.attestationCompletedCount.plus(ONE_BD)
+        attestationDayData.attestationCompletedGasConsumed.plus(gasConsumed)
+    } else {
+        attestationDayData.attestationIssuerSelectedCount.plus(ONE_BD)
+        attestationDayData.attestationIssuerSelectedGasConsumed.plus(gasConsumed)
+    }
     attestationDayData.save();
 }

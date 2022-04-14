@@ -71,11 +71,13 @@ type IssuerSelected @entity {
 }
 
 
-type DayData @entity {
+type AttestationDayData @entity {
   id: ID!
-  timestamp: Int!
-
-  eventType: String!
-  dailyGasConsumed: BigDecimal!
+  attestationRequestedCount: BigDecimal!
+  attestationCompletedCount: BigDecimal!
+  attestationIssuerSelectedCount: BigDecimal!
+  attestationRequestedGasConsumed: BigDecimal!
+  attestationCompletedGasConsumed: BigDecimal!
+  attestationIssuerSelectedGasConsumed: BigDecimal!
   lastUpdatedTimestamp: BigInt! # uint256
 }

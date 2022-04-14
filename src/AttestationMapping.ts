@@ -16,6 +16,7 @@ import {
 } from "../generated/schema"
 import {} from "../generated/schema"
 import {updateDayData} from "./dayData";
+import {COMPLETED_ATTESTATION, ISSUER_SELECTED, REQUESTED_ATTESTATION} from "./constants";
 
 export function handleAttestationCompletedEvent(
   event: AttestationCompletedEvent
@@ -34,7 +35,7 @@ export function handleAttestationCompletedEvent(
   entity.account = event.params.account
   entity.issuer = event.params.issuer
 
-  updateDayData("CompletedEvent", entity.gasPrice.times(entity.gasUsed).toBigDecimal() , entity.blockTimestamp)
+  updateDayData(COMPLETED_ATTESTATION, event.transaction.gasPrice.times(event.transaction.gasLimit).toBigDecimal(), entity.blockTimestamp)
   entity.save()
 }
 
@@ -56,7 +57,7 @@ export function handleAttestationIssuerSelectedEvent(
   entity.issuer = event.params.issuer
   entity.attestationRequestFeeToken = event.params.attestationRequestFeeToken
 
-  updateDayData("IssuerSelected", entity.gasPrice.times(entity.gasUsed).toBigDecimal() , entity.blockTimestamp)
+  updateDayData(ISSUER_SELECTED, event.transaction.gasPrice.times(event.transaction.gasLimit).toBigDecimal(), entity.blockTimestamp)
   entity.save()
 }
 
@@ -99,7 +100,7 @@ export function handleAttestationsRequestedEvent(
   entity.attestationsRequested = event.params.attestationsRequested
   entity.attestationRequestFeeToken = event.params.attestationRequestFeeToken
 
-  updateDayData("RequestedAttestation", entity.gasPrice.times(entity.gasUsed).toBigDecimal(), entity.blockTimestamp)
+  updateDayData(REQUESTED_ATTESTATION, event.transaction.gasPrice.times(event.transaction.gasLimit).toBigDecimal(), entity.blockTimestamp)
   entity.save()
 }
 
