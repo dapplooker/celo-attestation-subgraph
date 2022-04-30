@@ -80,4 +80,5 @@ type AttestationDayData @entity {
   attestationCompletedGasConsumed: BigDecimal!
   attestationIssuerSelectedGasConsumed: BigDecimal!
   lastUpdatedTimestamp: BigInt! # uint256
+  dayTimestamp: Int! # uint256
 }

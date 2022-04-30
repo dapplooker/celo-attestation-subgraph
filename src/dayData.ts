@@ -18,6 +18,7 @@ export function updateDayData(eventType: string, gasConsumed: BigDecimal, update
     let attestationDayData = AttestationDayData.load(dayDataID);
     if (attestationDayData === null) {
         attestationDayData = new AttestationDayData(dayDataID);
+        attestationDayData.dayTimestamp = dayStartTimestamp;
         attestationDayData.attestationCompletedGasConsumed = ZERO_BD;
         attestationDayData.attestationRequestedGasConsumed = ZERO_BD;
         attestationDayData.attestationRequestedCount = ZERO_BD;
