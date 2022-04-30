@@ -1,18 +1,19 @@
 /* eslint-disable prefer-const */
 import {
     BigDecimal,
-    BigInt
+    BigInt, log
 } from "@graphprotocol/graph-ts";
 import {AttestationDayData} from "../generated/schema";
 import {COMPLETED_ATTESTATION, ONE_BD, REQUESTED_ATTESTATION, ZERO_BD} from "./constants";
 
 
 export function updateDayData(eventType: string, gasConsumed: BigDecimal, updateTimestamp: BigInt): void {
+    log.info("Event type: {}", [eventType]);
     let timestamp = updateTimestamp.toI32();
     let dayID = timestamp / 86400;
     let dayStartTimestamp = dayID * 86400;
     // @ts-ignore
-    let dayDataID = dayStartTimestamp.toString().concat("-").concat(eventType);
+    let dayDataID = dayStartTimestamp.toString()
 
     let attestationDayData = AttestationDayData.load(dayDataID);
     if (attestationDayData === null) {
@@ -21,17 +22,21 @@ export function updateDayData(eventType: string, gasConsumed: BigDecimal, update
         attestationDayData.attestationRequestedGasConsumed = ZERO_BD;
         attestationDayData.attestationRequestedCount = ZERO_BD;
         attestationDayData.attestationCompletedCount = ZERO_BD;
+        attestationDayData.attestationIssuerSelectedCount = ZERO_BD;
     }
 
     attestationDayData.lastUpdatedTimestamp = updateTimestamp
     if (eventType === REQUESTED_ATTESTATION) {
-        attestationDayData.attestationRequestedCount.plus(ONE_BD)
+        log.info("Incrementing requested attestation by {} for day {}", [ONE_BD.toString(), dayDataID]);
+        attestationDayData.attestationRequestedCount = attestationDayData.attestationRequestedCount.plus(ONE_BD)
         attestationDayData.attestationRequestedGasConsumed.plus(gasConsumed)
     } else if(eventType === COMPLETED_ATTESTATION){
-        attestationDayData.attestationCompletedCount.plus(ONE_BD)
+        log.info("Incrementing completed attestation by {} for day {}", [ONE_BD.toString(), dayDataID]);
+        attestationDayData.attestationCompletedCount = attestationDayData.attestationCompletedCount.plus(ONE_BD)
         attestationDayData.attestationCompletedGasConsumed.plus(gasConsumed)
     } else {
-        attestationDayData.attestationIssuerSelectedCount.plus(ONE_BD)
+        log.info("Incrementing issuer selected by {} for day {}", [ONE_BD.toString(), dayDataID]);
+        attestationDayData.attestationIssuerSelectedCount = attestationDayData.attestationIssuerSelectedCount.plus(ONE_BD)
         attestationDayData.attestationIssuerSelectedGasConsumed.plus(gasConsumed)
     }
     attestationDayData.save();
