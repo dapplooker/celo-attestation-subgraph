@@ -30,15 +30,16 @@ export function updateDayData(eventType: string, gasConsumed: BigDecimal, update
     if (eventType === REQUESTED_ATTESTATION) {
         log.info("Incrementing requested attestation by {} for day {}", [ONE_BD.toString(), dayDataID]);
         attestationDayData.attestationRequestedCount = attestationDayData.attestationRequestedCount.plus(ONE_BD)
-        attestationDayData.attestationRequestedGasConsumed.plus(gasConsumed)
+        attestationDayData.attestationRequestedGasConsumed = attestationDayData.attestationRequestedGasConsumed.plus(gasConsumed)
     } else if(eventType === COMPLETED_ATTESTATION){
         log.info("Incrementing completed attestation by {} for day {}", [ONE_BD.toString(), dayDataID]);
         attestationDayData.attestationCompletedCount = attestationDayData.attestationCompletedCount.plus(ONE_BD)
-        attestationDayData.attestationCompletedGasConsumed.plus(gasConsumed)
+        attestationDayData.attestationCompletedGasConsumed = attestationDayData.attestationCompletedGasConsumed.plus(gasConsumed)
     } else {
         log.info("Incrementing issuer selected by {} for day {}", [ONE_BD.toString(), dayDataID]);
         attestationDayData.attestationIssuerSelectedCount = attestationDayData.attestationIssuerSelectedCount.plus(ONE_BD)
-        attestationDayData.attestationIssuerSelectedGasConsumed.plus(gasConsumed)
+        attestationDayData.attestationIssuerSelectedGasConsumed = attestationDayData.attestationIssuerSelectedGasConsumed.plus(gasConsumed)
     }
+
     attestationDayData.save();
 }
