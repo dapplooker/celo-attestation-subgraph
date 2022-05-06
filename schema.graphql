@@ -29,6 +29,10 @@ type CompletedAttestation @entity {
   issuer: Bytes! # address
 }
 
+type UniqueCompletedAttestion @entity {
+  id: ID!
+}
+
 type AttestationFee @entity {
   id: ID!
   txHash: Bytes

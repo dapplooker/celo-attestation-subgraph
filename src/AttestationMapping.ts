@@ -9,6 +9,7 @@ import {
 import {} from "../generated/Attestation/Attestation"
 import {
   CompletedAttestation as AttestationAttestationCompletedEventSchema,
+  UniqueCompletedAttestion,
   IssuerSelected as AttestationAttestationIssuerSelectedEventSchema,
   AttestationFee as AttestationAttestationRequestFeeSetEventSchema,
   RequestedAttestation as AttestationAttestationsRequestedEventSchema,
@@ -23,6 +24,7 @@ export function handleAttestationCompletedEvent(
 ): void {
   log.info("Attestation completed event: Entity address {}", [event.transaction.hash.toHex()]);
   let entity = new AttestationAttestationCompletedEventSchema(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
+  let uniqueEntity = new UniqueCompletedAttestion(event.params.identifier.toHexString().toLowerCase() + "-" + event.params.account.toHexString().toLowerCase())
   entity.txHash = event.transaction.hash
   entity.fromAddress = event.transaction.from
   entity.toAddress = event.transaction.to
@@ -35,8 +37,14 @@ export function handleAttestationCompletedEvent(
   entity.account = event.params.account
   entity.issuer = event.params.issuer
 
-  updateDayData(COMPLETED_ATTESTATION, event.transaction.gasPrice.times(event.transaction.gasLimit).toBigDecimal(), entity.blockTimestamp)
+  if (UniqueCompletedAttestion.load(entity.pk) === null) {
+    log.info("New attestation completed event: {}", [entity.pk]);
+    updateDayData(COMPLETED_ATTESTATION, event.transaction.gasPrice.times(event.transaction.gasLimit).toBigDecimal(), entity.blockTimestamp)
+  }else{
+    log.info("Got processed attestation completed event: {}", [entity.pk]);
+  }
   entity.save()
+  uniqueEntity.save()
 }
 
 export function handleAttestationIssuerSelectedEvent(
