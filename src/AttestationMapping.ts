@@ -9,20 +9,22 @@ import {
 import {} from "../generated/Attestation/Attestation"
 import {
   CompletedAttestation as AttestationAttestationCompletedEventSchema,
+  UniqueCompletedAttestion,
   IssuerSelected as AttestationAttestationIssuerSelectedEventSchema,
   AttestationFee as AttestationAttestationRequestFeeSetEventSchema,
   RequestedAttestation as AttestationAttestationsRequestedEventSchema,
   IssuersWaitBlock as AttestationSelectIssuersWaitBlocksSetEventSchema,
 } from "../generated/schema"
 import {} from "../generated/schema"
+import {updateDayData} from "./dayData";
+import {COMPLETED_ATTESTATION, ISSUER_SELECTED, REQUESTED_ATTESTATION} from "./constants";
 
 export function handleAttestationCompletedEvent(
   event: AttestationCompletedEvent
 ): void {
   log.info("Attestation completed event: Entity address {}", [event.transaction.hash.toHex()]);
-  let entity = new AttestationAttestationCompletedEventSchema(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-  )
+  let entity = new AttestationAttestationCompletedEventSchema(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
+  let uniqueEntity = new UniqueCompletedAttestion(event.params.identifier.toHexString().toLowerCase() + "-" + event.params.account.toHexString().toLowerCase())
   entity.txHash = event.transaction.hash
   entity.fromAddress = event.transaction.from
   entity.toAddress = event.transaction.to
@@ -30,19 +32,26 @@ export function handleAttestationCompletedEvent(
   entity.gasUsed = event.transaction.gasLimit
   entity.gasPrice = event.transaction.gasPrice
   entity.blockTimestamp = event.block.timestamp
+  entity.pk = (event.params.identifier.toHexString().toLowerCase() + "-" + event.params.account.toHexString().toLowerCase())
   entity.identifier = event.params.identifier
   entity.account = event.params.account
   entity.issuer = event.params.issuer
+
+  if (UniqueCompletedAttestion.load(entity.pk) === null) {
+    log.info("New attestation completed event: {}", [entity.pk]);
+    updateDayData(COMPLETED_ATTESTATION, event.transaction.gasPrice.times(event.transaction.gasLimit).toBigDecimal(), entity.blockTimestamp)
+  }else{
+    log.info("Got processed attestation completed event: {}", [entity.pk]);
+  }
   entity.save()
+  uniqueEntity.save()
 }
 
 export function handleAttestationIssuerSelectedEvent(
   event: AttestationIssuerSelectedEvent
 ): void {
   log.info("Attestation issuer selected: Entity address {}", [event.transaction.hash.toHex()]);
-  let entity = new AttestationAttestationIssuerSelectedEventSchema(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-  )
+  let entity = new AttestationAttestationIssuerSelectedEventSchema(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
   entity.txHash = event.transaction.hash
   entity.fromAddress = event.transaction.from
   entity.toAddress = event.transaction.to
@@ -50,10 +59,13 @@ export function handleAttestationIssuerSelectedEvent(
   entity.gasUsed = event.transaction.gasLimit
   entity.gasPrice = event.transaction.gasPrice
   entity.blockTimestamp = event.block.timestamp
+  entity.pk = (event.params.identifier.toHexString().toLowerCase() + "-" + event.params.account.toHexString().toLowerCase())
   entity.identifier = event.params.identifier
   entity.account = event.params.account
   entity.issuer = event.params.issuer
   entity.attestationRequestFeeToken = event.params.attestationRequestFeeToken
+
+  updateDayData(ISSUER_SELECTED, event.transaction.gasPrice.times(event.transaction.gasLimit).toBigDecimal(), entity.blockTimestamp)
   entity.save()
 }
 
@@ -90,10 +102,13 @@ export function handleAttestationsRequestedEvent(
   entity.gasUsed = event.transaction.gasLimit
   entity.gasPrice = event.transaction.gasPrice
   entity.blockTimestamp = event.block.timestamp
+  entity.pk = (event.params.identifier.toHexString().toLowerCase() + "-" + event.params.account.toHexString().toLowerCase())
   entity.identifier = event.params.identifier
   entity.account = event.params.account
   entity.attestationsRequested = event.params.attestationsRequested
   entity.attestationRequestFeeToken = event.params.attestationRequestFeeToken
+
+  updateDayData(REQUESTED_ATTESTATION, event.transaction.gasPrice.times(event.transaction.gasLimit).toBigDecimal(), entity.blockTimestamp)
   entity.save()
 }
 
