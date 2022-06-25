@@ -17,9 +17,9 @@ import {
   AttestationFee as AttestationAttestationRequestFeeSetEventSchema,
   RequestedAttestation as AttestationAttestationsRequestedEventSchema,
   IssuersWaitBlock as AttestationSelectIssuersWaitBlocksSetEventSchema,
-  WithdrawalEvent as AttestationWithdrawalEventSchema,
-  AttestationsTransferredEvent as AttestationAttestationsTransferredEventSchema,
-  TransferApprovalEvent as AttestationTransferApprovalEventSchema
+  Withdrawal as AttestationWithdrawalEventSchema,
+  AttestationsTransferred as AttestationAttestationsTransferredEventSchema,
+  TransferApproval as AttestationTransferApprovalEventSchema
 } from "../generated/schema"
 import {} from "../generated/schema"
 import {updateDayData} from "./dayData";
