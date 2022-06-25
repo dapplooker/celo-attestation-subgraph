@@ -19,6 +19,9 @@ dataSources:
         - AttestationRequestFeeSet
         - AttestationsRequested
         - SelectIssuersWaitBlocksSet
+        - AttestationsTransferred
+        - TransferApproval
+        - Withdrawal
       abis:
         - name: Attestation
           file: ./abis/Attestation.json
@@ -33,4 +36,10 @@ dataSources:
           handler: handleAttestationsRequestedEvent
         - event: SelectIssuersWaitBlocksSet(uint256)
           handler: handleSelectIssuersWaitBlocksSetEvent
+        - event: TransferApproval(indexed address,indexed bytes32,address,address,bool)
+          handler: handleTransferApprovalEvent
+        - event: Withdrawal(indexed address,indexed address,uint256)
+          handler: handleWithdrawalEvent
+        - event: AttestationsTransferred(indexed bytes32,indexed address,indexed address)
+          handler: handleAttestationsTransferredEvent
       file: ./src/AttestationMapping.ts
