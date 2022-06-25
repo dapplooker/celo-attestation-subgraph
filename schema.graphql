@@ -86,3 +86,48 @@ type AttestationDayData @entity {
   lastUpdatedTimestamp: BigInt! # uint256
   dayTimestamp: Int! # uint256
 }
+
+
+type WithdrawalEvent @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
+  account: Bytes! # address
+  token: Bytes! # address
+  amount: BigInt! # uint256
+}
+
+type AttestationsTransferredEvent @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
+  identifier: Bytes! # bytes32
+  fromAccount: Bytes! # address
+  toAccount: Bytes! # address
+}
+
+type TransferApprovalEvent @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
+  approver: Bytes! # address
+  indentifier: Bytes! # bytes32
+  from: Bytes! # address
+  to: Bytes! # address
+  approved: Boolean! # bool
+}

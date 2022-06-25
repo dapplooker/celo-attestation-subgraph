@@ -4,7 +4,10 @@ import {
   AttestationIssuerSelected as AttestationIssuerSelectedEvent,
   AttestationRequestFeeSet as AttestationRequestFeeSetEvent,
   AttestationsRequested as AttestationsRequestedEvent,
-  SelectIssuersWaitBlocksSet as SelectIssuersWaitBlocksSetEvent
+  SelectIssuersWaitBlocksSet as SelectIssuersWaitBlocksSetEvent,
+  Withdrawal as WithdrawalEvent,
+  AttestationsTransferred as AttestationsTransferredEvent,
+  TransferApproval as TransferApprovalEvent
 } from "../generated/Attestation/Attestation"
 import {} from "../generated/Attestation/Attestation"
 import {
@@ -14,6 +17,9 @@ import {
   AttestationFee as AttestationAttestationRequestFeeSetEventSchema,
   RequestedAttestation as AttestationAttestationsRequestedEventSchema,
   IssuersWaitBlock as AttestationSelectIssuersWaitBlocksSetEventSchema,
+  WithdrawalEvent as AttestationWithdrawalEventSchema,
+  AttestationsTransferredEvent as AttestationAttestationsTransferredEventSchema,
+  TransferApprovalEvent as AttestationTransferApprovalEventSchema
 } from "../generated/schema"
 import {} from "../generated/schema"
 import {updateDayData} from "./dayData";
@@ -129,3 +135,61 @@ export function handleSelectIssuersWaitBlocksSetEvent(
   entity.value = event.params.value
   entity.save()
 }
+
+export function handleWithdrawalEvent(event: WithdrawalEvent): void {
+  let entity = new AttestationWithdrawalEventSchema(
+      event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  )
+  entity.txHash = event.transaction.hash
+  entity.fromAddress = event.transaction.from
+  entity.toAddress = event.transaction.to
+  entity.valueTransferred = event.transaction.value
+  entity.gasUsed = event.transaction.gasLimit
+  entity.gasPrice = event.transaction.gasPrice
+  entity.blockTimestamp = event.block.timestamp
+  entity.account = event.params.account
+  entity.token = event.params.token
+  entity.amount = event.params.amount
+  entity.save()
+}
+
+export function handleAttestationsTransferredEvent(
+    event: AttestationsTransferredEvent
+): void {
+  let entity = new AttestationAttestationsTransferredEventSchema(
+      event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  )
+  entity.txHash = event.transaction.hash
+  entity.fromAddress = event.transaction.from
+  entity.toAddress = event.transaction.to
+  entity.valueTransferred = event.transaction.value
+  entity.gasUsed = event.transaction.gasLimit
+  entity.gasPrice = event.transaction.gasPrice
+  entity.blockTimestamp = event.block.timestamp
+  entity.identifier = event.params.identifier
+  entity.fromAccount = event.params.fromAccount
+  entity.toAccount = event.params.toAccount
+  entity.save()
+}
+
+export function handleTransferApprovalEvent(
+    event: TransferApprovalEvent
+): void {
+  let entity = new AttestationTransferApprovalEventSchema(
+      event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  )
+  entity.txHash = event.transaction.hash
+  entity.fromAddress = event.transaction.from
+  entity.toAddress = event.transaction.to
+  entity.valueTransferred = event.transaction.value
+  entity.gasUsed = event.transaction.gasLimit
+  entity.gasPrice = event.transaction.gasPrice
+  entity.blockTimestamp = event.block.timestamp
+  entity.approver = event.params.approver
+  entity.indentifier = event.params.indentifier
+  entity.from = event.params.from
+  entity.to = event.params.to
+  entity.approved = event.params.approved
+  entity.save()
+}
+
