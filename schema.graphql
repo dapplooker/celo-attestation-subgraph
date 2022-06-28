@@ -179,7 +179,7 @@ type EscrowWithdrawalEvent @entity {
   paymentId: Bytes! # address
 }
 
-type AccountsAccountWalletAddressSetEvent @entity {
+type AccountWalletAddressSetEvent @entity {
   id: ID!
   txHash: Bytes
   fromAddress: Bytes # address
