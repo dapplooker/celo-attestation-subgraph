@@ -3,7 +3,7 @@ import {
 } from "../generated/Accounts/Accounts"
 import {} from "../generated/Accounts/Accounts"
 import {
-  AccountsAccountWalletAddressSetEvent as AccountsAccountWalletAddressSetEventSchema
+  AccountWalletAddressSetEvent as AccountsAccountWalletAddressSetEventSchema
 } from "../generated/schema"
 import {} from "../generated/schema"
 
