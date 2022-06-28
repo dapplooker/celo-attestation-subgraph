@@ -74,7 +74,6 @@ type IssuerSelected @entity {
   attestationRequestFeeToken: Bytes! # address
 }
 
-
 type AttestationDayData @entity {
   id: ID!
   attestationRequestedCount: BigDecimal!
@@ -86,7 +85,6 @@ type AttestationDayData @entity {
   lastUpdatedTimestamp: BigInt! # uint256
   dayTimestamp: Int! # uint256
 }
-
 
 type Withdrawal @entity {
   id: ID!
@@ -131,3 +129,66 @@ type TransferApproval @entity {
   to: Bytes! # address
   approved: Boolean! # bool
 }
+
+type EscrowRevocationEvent @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
+  identifier: Bytes! # bytes32
+  by: Bytes! # address
+  token: Bytes! # address
+  value: BigInt! # uint256
+  paymentId: Bytes! # address
+}
+
+type EscrowTransferEvent @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
+  from: Bytes! # address
+  identifier: Bytes! # bytes32
+  token: Bytes! # address
+  value: BigInt! # uint256
+  paymentId: Bytes! # address
+  minAttestations: BigInt! # uint256
+}
+
+type EscrowWithdrawalEvent @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
+  identifier: Bytes! # bytes32
+  to: Bytes! # address
+  token: Bytes! # address
+  value: BigInt! # uint256
+  paymentId: Bytes! # address
+}
+
+type AccountsAccountWalletAddressSetEvent @entity {
+  id: ID!
+  txHash: Bytes
+  fromAddress: Bytes # address
+  toAddress: Bytes # address
+  valueTransferred: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  blockTimestamp: BigInt! # uint256
+  account: Bytes! # address
+  walletAddress: Bytes! # address
+}
+
