@@ -5,7 +5,7 @@ The Attestation Service is part of the Celo identity protocol. It sends SMS on b
 
 To be able to deploy the subgraph in you need to change the endpoint ```Github/Subgraph-Name``` and add the access token in ```package.json```. then run the below commands. 
 ```bash
-npm run codengen
+npm run codegen
 # build the subgraph 
 npm run build 
 # deploy the subgraph
